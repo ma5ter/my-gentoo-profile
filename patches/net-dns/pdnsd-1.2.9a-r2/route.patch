@@ -1,0 +1,98 @@
+diff --git a/src/cache.c b/src/cache.c
+--- a/src/cache.c	(revision 4d9c856c8a2f18f4940797f7d75e6131849be35c)
++++ b/src/cache.c	(revision 240103b5c7dc2da3c2f67977b591c35431de5997)
+@@ -31,6 +31,7 @@
+ #include <unistd.h>
+ #include <ctype.h>
+ #include <sys/time.h>
++#include <linux/limits.h>
+ #include "cache.h"
+ #include "hash.h"
+ #include "conff.h"
+@@ -882,6 +883,63 @@
+ 	return (le->rrset)?(le->rrset->ts):(le->cent->neg.ts);
+ }
+ 
++void exec_route(rr_set_t *rrs, dns_cent_t *cent) {
++	// TODO: add scripting ability to the config
++	#warning Hardcoded route script
++	static const char COMMAND[] = CONFDIR"/route";
++	char command[ARG_MAX];
++	char *ptr;
++
++	ptr = command + snprintf(command, sizeof(command) - 1, "%s ", COMMAND);
++
++	if (cent) {
++		rhn2str(cent->qname, (unsigned char *)ptr, sizeof(command) - (ptr - command) - 1);
++		ptr = &command[strlen(command)];
++	}
++	else {
++		*ptr++ = '-';
++		*ptr = 0;
++	}
++
++	int count = 0;
++	for (struct rr_b_s *it = rrs->rrs; it; it = it->next) {
++		const char *r = NULL;
++		char ip[INET6_ADDRSTRLEN + 1];
++
++		if (it->rdlen == sizeof(struct in_addr)) {
++			r = inet_ntop(AF_INET, it->data, ip, sizeof(ip) - 1);
++		}
++		#ifdef ROUTE_IPV6
++		else if (it->rdlen == sizeof(struct in6_addr)) {
++			r = inet_ntop(AF_INET6, it->data, ip, sizeof(ip) - 1);
++		}
++		#endif
++		else continue;
++
++		if (r) {
++			ptr += snprintf(ptr, sizeof(command) - (ptr - command) - 1, " %s", ip);
++			count++;
++		}
++	}
++
++	if (count) {
++		#if 0
++		FILE *cmd = popen(command, "r");
++			if (cmd == NULL) {
++				fprintf(stderr, "error: failed to run\n");
++			}
++			else {
++				while (fgets(prtbuf, (int)sizeof(prtbuf) - 1, cmd) != NULL) {
++					fprintf(stdout, "%s", prtbuf);
++				}
++				fclose(cmd);
++			}
++		#else
++		system(command);
++		#endif
++	}
++}
++
+ /* insert a rrset into the rr_l list. This modifies the rr_set_t if rrs is not NULL!
+  * The rrset address needs to be constant afterwards.
+  * idx is the internally used RR-set index, not the RR type!
+@@ -942,7 +1000,10 @@
+ 	}
+ 
+ 	if (rrs)
+-		rrs->lent=ne;
++	{
++		exec_route(rrs, cent);
++               rrs->lent = ne;
++	}
+ 	else
+ 		cent->neg.lent=ne;
+ 
+@@ -952,6 +1013,10 @@
+ /* Remove a rr from the rr_l list. Call with locks applied. */
+ static void remove_rrl(rr_lent_t *le  DBGPARAM)
+ {
++	if (le->rrset) {
++		exec_route(le->rrset, NULL);
++	}
++
+ 	rr_lent_t *next=le->next,*prev=le->prev;
+ 	if (next)
+ 		next->prev=prev;

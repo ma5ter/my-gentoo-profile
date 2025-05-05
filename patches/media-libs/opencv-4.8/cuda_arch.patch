@@ -1,0 +1,14 @@
+diff --git a/cmake/OpenCVDetectCUDA.cmake b/cmake/OpenCVDetectCUDA.cmake
+index a3d987a..6d33e60 100644
+--- a/cmake/OpenCVDetectCUDA.cmake
++++ b/cmake/OpenCVDetectCUDA.cmake
+@@ -253,6 +253,9 @@ if(CUDA_FOUND)
+     set(__cuda_arch_bin ${CUDA_ARCH_BIN})
+   endif()
+ 
++  set(__cuda_arch_bin "8.6")
++  message(WARNING "CUDA: FORCED CUDA ARCH. CONSIDER IMPORTING FROM ENV LIKE CUDAARCHS OR TORCH_CUDA_ARCH_LIST")
++
+   if(NOT DEFINED __cuda_arch_bin)
+     if(ARM)
+       set(__cuda_arch_bin "3.2")

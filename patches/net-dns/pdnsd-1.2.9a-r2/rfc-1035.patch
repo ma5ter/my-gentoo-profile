@@ -1,0 +1,23 @@
+diff --git a/src/dns_answer.c b/src/dns_answer.c
+--- a/src/dns_answer.c	(revision 240103b5c7dc2da3c2f67977b591c35431de5997)
++++ b/src/dns_answer.c	(date 1711978354196)
+@@ -814,10 +814,15 @@
+ 	/* Barf if we get a query we cannot answer */
+ 	for (qe=llist_first(ql); qe; qe=llist_next(qe)) {
+ 		if ((PDNSD_NOT_CACHED_TYPE(qe->qtype) &&
+-		     (qe->qtype!=QT_MAILB && qe->qtype!=QT_MAILA && qe->qtype!=QT_ALL)) ||
+-		    (qe->qclass!=C_IN && qe->qclass!=QC_ALL))
++		     (qe->qtype!=QT_MAILB && qe->qtype!=QT_MAILA && qe->qtype!=QT_ALL)))
+ 		{
+-			DEBUG_MSG("Unsupported QTYPE or QCLASS.\n");
++			DEBUG_MSG("Unsupported QTYPE.\n");
++			// Returning other opcodes, including NOTIMP, for unrecognized qtypes is a violation of RFC 1035, and needs to be fixed.
++			ans->hdr.rcode=rcode=RC_OK;
++			goto cleanup_return;
++		}
++		if ((qe->qclass!=C_IN && qe->qclass!=QC_ALL)) {
++			DEBUG_MSG("Unsupported QCLASS.\n");
+ 			ans->hdr.rcode=rcode=RC_NOTSUPP;
+ 			goto cleanup_return;
+ 		}
+

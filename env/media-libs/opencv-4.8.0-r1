@@ -1,0 +1,3 @@
+#Unable to properly use NVCC_APPEND_FLAGS as it is forcefully reset by the opencv build
+CC=gcc-13
+CXX=g++-13

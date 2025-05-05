@@ -1,0 +1,3 @@
+# NOTE: pipewire emulates pulseaudio but the 'pulseaudio' flag does two things: interfaces pulse (good), explicitly installs pulseaudio (bad);
+# so that to correctly display devices we have to set the 'alsa' flag (pipewire is optional this way)
+net-voip/mumble -alsa pipewire -pulseaudio

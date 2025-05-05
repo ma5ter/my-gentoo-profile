@@ -1,0 +1,8 @@
+<dev-lang/python-3.10
+<dev-libs/icu-76.1
+<media-gfx/freecad-1
+<sys-kernel/gentoo-sources-6.1
+<x11-drivers/nvidia-drivers-565
+=dev-lang/python-3.11
+media-sound/jack
+media-sound/pulseaudio

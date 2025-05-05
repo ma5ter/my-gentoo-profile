@@ -1,0 +1,8 @@
+*/* -gnome -kaccounts
+
+*/* X kde qt6 wayland qml
+
+kde-plasma/plasma-meta gtk -browser-integration -crash-handler -wallpapers
+kde-apps/kde-apps-meta pim -education -games
+x11-libs/wxGTK gstreamer
+dev-libs/libdbusmenu gtk3

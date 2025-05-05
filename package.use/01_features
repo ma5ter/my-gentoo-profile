@@ -1,0 +1,8 @@
+*/* -ipv6 -handbook -telemetry -man
+
+*/* bluetooth threads samba cups eselect-ldso networkmanager tcmalloc logrotate
+
+# SDL2 (Simple DirectMedia Layer), a multimedia library that provides low-level access to audio, keyboard, mouse, joystick, 3D hardware via OpenGL, and 2D video framebuffer.
+media-libs/libsdl2 haptic
+
+net-wireless/wpa_supplicant tkip

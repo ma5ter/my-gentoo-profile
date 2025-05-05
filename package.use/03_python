@@ -1,0 +1,24 @@
+dev-lang/python tk -bluetooth
+
+# Python 12 is the main version despite profile settings
+
+*/* python_single_target_python3_12
+*/* python_targets_python3_12
+
+
+# Python 13 support not yet implemented
+
+*/* -python_single_target_python3_13
+*/* -python_targets_python3_13
+
+
+# Python 11 deprecated
+
+*/* -python_single_target_python3_11
+*/* -python_targets_python3_11
+
+
+# Python 10 deprecated
+
+*/* -python_single_target_python3_10
+*/* -python_targets_python3_10

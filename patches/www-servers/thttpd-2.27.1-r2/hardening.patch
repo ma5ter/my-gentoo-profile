@@ -1,0 +1,82 @@
+diff -upbr a/src/thttpd.h b/src/thttpd.h
+--- a/src/thttpd.h	2017-06-08 14:35:48.000000000 +0300
++++ b/src/thttpd.h	2020-11-12 13:38:24.000000000 +0300
+@@ -59,14 +59,14 @@
+ */
+ #ifdef notdef
+ /* Some sample patterns.  Allow programs only in one central directory: */
+-#define CGI_PATTERN "/cgi-bin/*"
++//#define CGI_PATTERN "/cgi-bin/*"
+ /* Allow programs in a central directory, or anywhere in a trusted
+ ** user's tree: */
+-#define CGI_PATTERN "/cgi-bin/*|/jef/**"
++//#define CGI_PATTERN "/cgi-bin/*|/jef/**"
+ /* Allow any program ending with a .cgi: */
+ #define CGI_PATTERN "**.cgi"
+ /* When virtual hosting, enable the central directory on every host: */
+-#define CGI_PATTERN "/*/cgi-bin/*"
++//#define CGI_PATTERN "/*/cgi-bin/*"
+ #endif
+ 
+ /* CONFIGURE: How many seconds to allow CGI programs to run before killing
+@@ -144,7 +144,7 @@
+ ** You can override this in the config file with the "charset" setting,
+ ** or on the command like with the -T flag.
+ */
+-#define DEFAULT_CHARSET "iso-8859-1"
++#define DEFAULT_CHARSET "UTF-8"
+ 
+ 
+ /* Most people won't want to change anything below here. */
+@@ -178,7 +178,7 @@
+ ** when returning into to browsers.  Instead it'll just say "thttpd" with
+ ** no version.
+ */
+-#define SHOW_SERVER_VERSION
++//#define SHOW_SERVER_VERSION
+ 
+ /* CONFIGURE: Define this if you want to always chroot(), without having
+ ** to give the -r command line flag.  Some people like this as a security
+@@ -251,7 +251,7 @@
+ ** have more explicit information about exactly what the problem is.
+ ** Some sysadmins don't like this, for security reasons.
+ */
+-#define EXPLICIT_ERROR_PAGES
++//#define EXPLICIT_ERROR_PAGES
+ 
+ /* CONFIGURE: Subdirectory for custom error pages.  The error filenames are
+ ** $WEBDIR/$ERR_DIR/err%d.html - if virtual hosting is enabled then
+@@ -267,7 +267,7 @@
+ ** $SERVER_SOFTWARE and $SERVER_ADDRESS to be appended to the custom error
+ ** pages.  (It is always appended to the built-in error pages.)
+ */
+-#define ERR_APPEND_SERVER_INFO
++//#define ERR_APPEND_SERVER_INFO
+ 
+ /* CONFIGURE: nice(2) value to use for CGI programs.  If this is undefined,
+ ** CGI programs run at normal priority.
+@@ -276,12 +276,13 @@
+ 
+ /* CONFIGURE: $PATH to use for CGI programs.
+ */
+-#define CGI_PATH "/usr/local/bin:/usr/ucb:/bin:/usr/bin"
++//#define CGI_PATH "/usr/local/bin:/usr/ucb:/bin:/usr/bin"
++#define CGI_PATH ""
+ 
+ /* CONFIGURE: If defined, $LD_LIBRARY_PATH to use for CGI programs.
+ */
+ #ifdef notdef
+-#define CGI_LD_LIBRARY_PATH "/usr/local/lib:/usr/lib"
++//#define CGI_LD_LIBRARY_PATH "/usr/local/lib:/usr/lib"
+ #endif
+ 
+ /* CONFIGURE: How often to run the occasional cleanup job.
+@@ -342,7 +343,7 @@
+ ** individual directories by merely doing a "chmod 711" on them - the
+ ** standard Unix file permission to allow file access but disable "ls".
+ */
+-#define GENERATE_INDEXES
++//#define GENERATE_INDEXES
+ 
+ /* CONFIGURE: Whether to log unknown request headers.  Most sites will not
+ ** want to log them, which will save them a bit of CPU time.

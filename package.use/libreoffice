@@ -1,0 +1,4 @@
+# Note: it seems that "kde" flag breaks global|hamburger menus (at least for the for compiled package, binpkg with this flag works as expected)
+# -kde
+
+app-office/libreoffice pdfimport base java

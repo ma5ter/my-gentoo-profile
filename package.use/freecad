@@ -1,0 +1,14 @@
+media-gfx/freecad -addonmgr -fem gui -idf -image -inspection -material -openscad part-design -path -points -raytracing -robot show -surface -techdraw -tux
+sci-libs/hdf5 fortran cxx
+sci-libs/opencascade vtk json
+dev-python/pyside quick webchannel webengine designer uitools
+sci-libs/cgnslib hdf5
+dev-python/pyqt5 network
+dev-qt/qttools designer
+sci-libs/hdf5 -threads
+sci-libs/opencascade vtk json
+
+sci-libs/vtk -ffmpeg -logging -openmp -sdl -python_single_target_*
+
+#compilatiom failed with missing -lMaterial
+<media-gfx/freecad-1.0.0-r3 material

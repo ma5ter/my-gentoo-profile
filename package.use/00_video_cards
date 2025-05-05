@@ -1,0 +1,36 @@
+*/* VIDEO_CARDS: nvidia intel i915 amdgpu radeon radeonsi
+*/* AMDGPU_TARGETS: renoir
+
+
+# OpenGL
+
+*/* opengl egl gles gles2
+
+
+# VAAPI (Video Acceleration API) provides access to graphics hardware (GPU) acceleration for video processing.
+
+*/* vaapi
+
+
+# Video Decode and Presentation API for Unix (VDPAU).
+
+*/* vdpau
+x11-libs/libvdpau dri
+
+
+# Vulkan is a next-generation graphics API created by The Khronos Group.
+
+*/* vulkan
+
+
+# This allows rendering OpenGL images in memory without requiring a display or GPU, useful for headless rendering tasks or software rendering scenarios
+
+media-libs/mesa osmesa
+
+
+# Nvidia specific options (don't enable cuda globally, use only where needed!)
+
+*/* -cuda nvenc
+
+# x11-drivers/nvidia-drivers kernel-open
+dev-util/nvidia-cuda-toolkit profiler

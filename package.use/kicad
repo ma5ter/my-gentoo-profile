@@ -1,0 +1,3 @@
+dev-libs/boost python
+sci-electronics/kicad -telemetry
+sci-libs/opencascade vtk

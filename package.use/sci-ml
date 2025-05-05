@@ -1,0 +1,6 @@
+sci-ml/accelerate
+sci-ml/transformers torch
+sci-ml/caffe2 tensorpipe ffmpeg opencv memefficient distributed
+dev-libs/apache-arrow re2 dataset compute
+dev-python/numpy lapack
+sci-libs/lapack lapacke

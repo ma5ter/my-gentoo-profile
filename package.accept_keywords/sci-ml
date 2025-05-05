@@ -1,0 +1,42 @@
+dev-python/multiprocess ~amd64
+sci-ml/datasets ~amd64
+sci-ml/huggingface_hub ~amd64
+sci-ml/tensorpipe ~amd64
+
+sci-ml/pytorch ~amd64
+
+# and dependencies
+sci-ml/caffe2 ~amd64
+dev-libs/clog ~amd64
+dev-libs/cpuinfo ~amd64
+dev-libs/pthreadpool ~amd64
+sci-ml/onnx ~amd64
+sci-ml/foxi ~amd64
+dev-libs/psimd ~amd64
+sci-ml/FP16 ~amd64
+dev-libs/FXdiv ~amd64
+dev-libs/pocketfft ~amd64
+sci-ml/kineto ~amd64
+dev-python/PeachPy ~amd64
+dev-python/Opcodes ~amd64
+dev-libs/cudnn ~amd64
+dev-libs/cudnn-frontend ~amd64
+dev-util/nvidia-cuda-toolkit ~amd64
+dev-libs/cutlass ~amd64
+sci-libs/tensorpipe ~amd64
+dev-libs/libnop ~amd64
+dev-libs/FBGEMM ~amd64
+dev-libs/asmjit ~amd64
+
+# and companions
+sci-ml/transformers ~amd64
+sci-ml/sentencepiece ~amd64
+sci-ml/pysentencepiece ~amd64
+sci-ml/safetensors ~amd64
+sci-ml/tokenizers ~amd64
+
+sci-ml/huggingface_hub ~amd64
+dev-libs/dynolog ~amd64
+dev-libs/pfs ~amd64
+
+sci-ml/accelerate ~amd64

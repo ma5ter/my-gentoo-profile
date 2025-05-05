@@ -1,0 +1,12 @@
+diff --git a/Telegram/SourceFiles/data/components/sponsored_messages.cpp b/Telegram/SourceFiles/data/components/sponsored_messages.cpp
+index a60d7c3..d99bfe7 100644
+--- a/Telegram/SourceFiles/data/components/sponsored_messages.cpp
++++ b/Telegram/SourceFiles/data/components/sponsored_messages.cpp
+@@ -255,6 +255,7 @@ void SponsoredMessages::append(
+ 		not_null<History*> history,
+ 		List &list,
+ 		const MTPSponsoredMessage &message) {
++return;
+ 	const auto &data = message.data();
+ 	const auto randomId = data.vrandom_id().v;
+ 	const auto hash = qs(data.vchat_invite_hash().value_or_empty());

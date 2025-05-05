@@ -1,0 +1,6 @@
+# See PipeWare wiki page
+*/* pulseaudio
+
+media-video/pipewire sound-server pipewire-alsa extra
+
+

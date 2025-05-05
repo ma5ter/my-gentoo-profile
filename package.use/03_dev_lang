@@ -1,0 +1,9 @@
+*/* LLVM_TARGETS: AArch64 ARM NVPTX
+
+dev-lang/python tk -bluetooth
+
+# NOTE: to use rust for development 'rust-src' flag should be present
+virtual/rust profiler
+dev-lang/rust profiler rust-analyzer rust-src rustfmt system-llvm
+
+dev-libs/libpcre2 pcre32

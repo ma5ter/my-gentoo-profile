@@ -1,0 +1,2 @@
+www-client/firefox X clang dbus gmp-autoupdate jumbo-build pulseaudio system-av1 system-harfbuzz system-icu system-jpeg system-libevent system-libvpx system-webp wayland eme-free hwaccel openh264 system-png -telemetry
+media-libs/libpng apng

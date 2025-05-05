@@ -1,0 +1,5 @@
+cross-arm-linux-gnueabihf/linux-headers  multilib
+cross-arm-linux-gnueabihf/glibc  cet multilib
+cross-arm-linux-gnueabihf/binutils  cet multilib
+cross-arm-linux-gnueabihf/gcc  cet multilib
+cross-arm-linux-gnueabihf/gdb  multilib

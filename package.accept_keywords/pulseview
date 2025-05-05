@@ -1,0 +1,3 @@
+sci-electronics/pulseview ~amd64
+sci-libs/libsigrokdecode ~amd64
+sci-electronics/sigrok-cli ~amd64

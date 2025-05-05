@@ -1,0 +1,18 @@
+diff --git a/newlib/libc/include/sys/reent.h b/newlib/libc/include/sys/reent.h
+index a02e7c2..d7bede6 100644
+--- a/newlib/libc/include/sys/reent.h
++++ b/newlib/libc/include/sys/reent.h
+@@ -456,9 +456,13 @@ struct _reent
+ 
+ /* Specify how to handle reent_check malloc failures. */
+ #ifdef _REENT_CHECK_VERIFY
++#ifdef _REENT_CHECK_ASSERT
+ #include <assert.h>
+ #define __reent_assert(x) ((x) ? (void)0 : __assert_func(__FILE__, __LINE__, (char *)0, "REENT malloc succeeded"))
+ #else
++#define __reent_assert(x) for(;;)
++#endif
++#else
+ #define __reent_assert(x) ((void)0)
+ #endif
+ 

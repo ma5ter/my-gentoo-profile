@@ -1,0 +1,4 @@
+*/* fontconfig
+
+media-fonts/* cjk
+media-libs/freetype harfbuzz

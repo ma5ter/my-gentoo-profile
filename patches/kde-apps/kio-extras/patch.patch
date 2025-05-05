@@ -1,0 +1,11 @@
+--- a/thumbnail/thumbnail.cpp
++++ b/thumbnail/thumbnail.cpp
+@@ -692,6 +692,8 @@ bool ThumbnailProtocol::createSubThumbnail(QImage &thumbnail, const QString &fil
+         md5.addData(fileUrl);
+         const QString thumbName = QString::fromLatin1(md5.result().toHex()).append(".png");
+ 
++	 // printf("%s -> %s\n", filePath.toStdString().c_str(), thumbName.toStdString().c_str());
++
+         ensureDirsCreated();
+ 
+         struct CachePool {

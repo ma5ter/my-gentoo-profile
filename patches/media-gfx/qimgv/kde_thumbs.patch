@@ -1,0 +1,58 @@
+--- a/qimgv/components/cache/thumbnailcache.cpp
++++ b/qimgv/components/cache/thumbnailcache.cpp
+@@ -1,7 +1,8 @@
+ #include "thumbnailcache.h"
+ 
+ ThumbnailCache::ThumbnailCache() {
+-    cacheDirPath = settings->thumbnailCacheDir();
++    // cacheDirPath = settings->thumbnailCacheDir();
++    cacheDirPath = QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QLatin1String("/thumbnails/");
+ }
+ 
+ QString ThumbnailCache::thumbnailPath(QString id) {
+--- a/qimgv/components/thumbnailer/thumbnailerrunnable.cpp
++++ b/qimgv/components/thumbnailer/thumbnailerrunnable.cpp
+@@ -16,11 +16,43 @@ void ThumbnailerRunnable::run() {
+ }
+ 
+ QString ThumbnailerRunnable::generateIdString(QString path, int size, bool crop) {
++    /*
+     QString queryStr = path + QString::number(size);
+     if(crop)
+         queryStr.append("s");
+     queryStr = QString("%1").arg(QString(QCryptographicHash::hash(queryStr.toUtf8(),QCryptographicHash::Md5).toHex()));
+     return queryStr;
++    */
++
++	struct CachePool {
++		QString path;
++		int minSize;
++	};
++
++	// path generation from kio-extras/thumbnail/thumbnail.cpp
++
++	static const auto pools = {
++		CachePool{QStringLiteral("normal/"), 128},
++		CachePool{QStringLiteral("large/"), 256},
++		CachePool{QStringLiteral("x-large/"), 512},
++		CachePool{QStringLiteral("xx-large/"), 1024},
++	};
++
++	const QString *prefix;
++	const int wants = 0;
++	for (const auto &pool : pools) {
++		prefix = &pool.path;
++		if (pool.minSize >= size) {
++			break;
++		}
++	}
++
++	QCryptographicHash md5(QCryptographicHash::Md5);
++	const QByteArray fileUrl = QUrl::fromLocalFile(path).toEncoded();
++	md5.addData(fileUrl);
++       const QString thumbName = QString::fromLatin1(md5.result().toHex());
++	// printf("%s -> %s\n", path.toStdString().c_str(), thumbName.toStdString().c_str());
++	return *prefix + thumbName;
+ }
+ 
+ std::shared_ptr<Thumbnail> ThumbnailerRunnable::generate(ThumbnailCache* cache, QString path, int size, bool crop, bool force) {

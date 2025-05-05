@@ -1,0 +1,6 @@
+# Note that manual setting ABI_X86 variable (which is a is a USE_EXPAND http://devmanual.gentoo.org/general-concepts/use-flags/#use_expand-and-arch-use-flags)
+# may have several side effects and does not work as expected except cases when set to one definite value like 64 or 32;
+# In case when 32bit support is needed only for several packages (like wine) use global flag to exclude unneeded
+# architecture '-abi_x86_32' here and individually set 'abi_x86_32' per package
+
+*/* -abi_x86_32

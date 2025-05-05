@@ -1,0 +1,8 @@
+*/* v4l x265 ffmpeg
+
+media-video/ffmpeg opus vpx nvenc libass theora lame amrenc twolame
+
+
+# SDK for encoding and decoding video using the WebM VP8 and VP9 codecs.
+
+media-libs/libvpx postproc

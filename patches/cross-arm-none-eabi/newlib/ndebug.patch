@@ -1,0 +1,12 @@
+diff --git a/newlib/libc/include/assert.h b/newlib/libc/include/assert.h
+index b9e5e9b..8a8c500 100644
+--- a/newlib/libc/include/assert.h
++++ b/newlib/libc/include/assert.h
+@@ -10,6 +10,7 @@ extern "C" {
+ 
+ #undef assert
+ 
++#define NDEBUG
+ #ifdef NDEBUG           /* required by ANSI standard */
+ # define assert(__e) ((void)0)
+ #else

@@ -1,0 +1,145 @@
+diff --git a/drivers/net/wireguard/cookie.c b/drivers/net/wireguard/cookie.c
+index 4956f04..f07c968 100644
+--- a/drivers/net/wireguard/cookie.c
++++ b/drivers/net/wireguard/cookie.c
+@@ -185,7 +185,7 @@ void wg_cookie_message_create(struct message_handshake_cookie *dst,
+ 		((u8 *)skb->data + skb->len - sizeof(*macs));
+ 	u8 cookie[COOKIE_LEN];
+ 
+-	dst->header.type = cpu_to_le32(MESSAGE_HANDSHAKE_COOKIE);
++	dst->header.type = cpu_to_le32(obfuscate_type(MESSAGE_HANDSHAKE_COOKIE));
+ 	dst->receiver_index = index;
+ 	get_random_bytes_wait(dst->nonce, COOKIE_NONCE_LEN);
+ 
+diff --git a/drivers/net/wireguard/messages.h b/drivers/net/wireguard/messages.h
+index 208da72..2de5789 100644
+--- a/drivers/net/wireguard/messages.h
++++ b/drivers/net/wireguard/messages.h
+@@ -61,6 +61,9 @@ enum message_type {
+ 	MESSAGE_DATA = 4
+ };
+ 
++extern __le32 obfuscate_type_random;
++#define obfuscate_type(type) ( obfuscate_type_random = ((obfuscate_type_random + 756839) * 13466917), ((type << 13) | (obfuscate_type_random & ~(7 << 13))))
++
+ struct message_header {
+ 	/* The actual layout of this that we want is:
+ 	 * u8 type
+@@ -84,6 +87,7 @@ struct message_handshake_initiation {
+ 	u8 encrypted_static[noise_encrypted_len(NOISE_PUBLIC_KEY_LEN)];
+ 	u8 encrypted_timestamp[noise_encrypted_len(NOISE_TIMESTAMP_LEN)];
+ 	struct message_macs macs;
++	u8 unused[108];
+ };
+ 
+ struct message_handshake_response {
+@@ -93,6 +97,7 @@ struct message_handshake_response {
+ 	u8 unencrypted_ephemeral[NOISE_PUBLIC_KEY_LEN];
+ 	u8 encrypted_nothing[noise_encrypted_len(0)];
+ 	struct message_macs macs;
++	u8 unused[36];
+ };
+ 
+ struct message_handshake_cookie {
+diff --git a/drivers/net/wireguard/noise.c b/drivers/net/wireguard/noise.c
+index 720952b..7579925 100644
+--- a/drivers/net/wireguard/noise.c
++++ b/drivers/net/wireguard/noise.c
+@@ -532,7 +532,7 @@ wg_noise_handshake_create_initiation(struct message_handshake_initiation *dst,
+ 	if (unlikely(!handshake->static_identity->has_identity))
+ 		goto out;
+ 
+-	dst->header.type = cpu_to_le32(MESSAGE_HANDSHAKE_INITIATION);
++	dst->header.type = cpu_to_le32(obfuscate_type(MESSAGE_HANDSHAKE_INITIATION));
+ 
+ 	handshake_init(handshake->chaining_key, handshake->hash,
+ 		       handshake->remote_static);
+@@ -681,7 +681,7 @@ bool wg_noise_handshake_create_response(struct message_handshake_response *dst,
+ 	if (handshake->state != HANDSHAKE_CONSUMED_INITIATION)
+ 		goto out;
+ 
+-	dst->header.type = cpu_to_le32(MESSAGE_HANDSHAKE_RESPONSE);
++	dst->header.type = cpu_to_le32(obfuscate_type(MESSAGE_HANDSHAKE_RESPONSE));
+ 	dst->receiver_index = handshake->remote_index;
+ 
+ 	/* e */
+diff --git a/drivers/net/wireguard/receive.c b/drivers/net/wireguard/receive.c
+index a176653..47b3ce3 100644
+--- a/drivers/net/wireguard/receive.c
++++ b/drivers/net/wireguard/receive.c
+@@ -23,22 +23,28 @@ static void update_rx_stats(struct wg_peer *peer, size_t len)
+ 	peer->rx_bytes += len;
+ }
+ 
+-#define SKB_TYPE_LE32(skb) (((struct message_header *)(skb)->data)->type)
++// obfuscate type
++__le32 obfuscate_type_random = 77232917ul;
++// deobfuscate type
++static inline __le32 SKB_TYPE_LE32(struct sk_buff *skb) {
++	return ((((struct message_header *)(skb)->data)->type) >> 13) & 7;
++}
+ 
+ static size_t validate_header_len(struct sk_buff *skb)
+ {
+ 	if (unlikely(skb->len < sizeof(struct message_header)))
+ 		return 0;
+-	if (SKB_TYPE_LE32(skb) == cpu_to_le32(MESSAGE_DATA) &&
++	const __le32 type = SKB_TYPE_LE32(skb);
++	if (type == cpu_to_le32(MESSAGE_DATA) &&
+ 	    skb->len >= MESSAGE_MINIMUM_LENGTH)
+ 		return sizeof(struct message_data);
+-	if (SKB_TYPE_LE32(skb) == cpu_to_le32(MESSAGE_HANDSHAKE_INITIATION) &&
++	if (type == cpu_to_le32(MESSAGE_HANDSHAKE_INITIATION) &&
+ 	    skb->len == sizeof(struct message_handshake_initiation))
+ 		return sizeof(struct message_handshake_initiation);
+-	if (SKB_TYPE_LE32(skb) == cpu_to_le32(MESSAGE_HANDSHAKE_RESPONSE) &&
++	if (type == cpu_to_le32(MESSAGE_HANDSHAKE_RESPONSE) &&
+ 	    skb->len == sizeof(struct message_handshake_response))
+ 		return sizeof(struct message_handshake_response);
+-	if (SKB_TYPE_LE32(skb) == cpu_to_le32(MESSAGE_HANDSHAKE_COOKIE) &&
++	if (type == cpu_to_le32(MESSAGE_HANDSHAKE_COOKIE) &&
+ 	    skb->len == sizeof(struct message_handshake_cookie))
+ 		return sizeof(struct message_handshake_cookie);
+ 	return 0;
+@@ -126,8 +132,8 @@ static void wg_receive_handshake_packet(struct wg_device *wg,
+ 	} else if (under_load && mac_state == VALID_MAC_BUT_NO_COOKIE) {
+ 		packet_needs_cookie = true;
+ 	} else {
+-		net_dbg_skb_ratelimited("%s: Invalid MAC of handshake, dropping packet from %pISpfsc\n",
+-					wg->dev->name, skb);
++		net_dbg_skb_ratelimited("%s: Invalid MAC of handshake, dropping packet from %pISpfsc state %d\n",
++					wg->dev->name, skb, mac_state);
+ 		return;
+ 	}
+ 
+diff --git a/drivers/net/wireguard/send.c b/drivers/net/wireguard/send.c
+index 0d48e0f..dbbff41 100644
+--- a/drivers/net/wireguard/send.c
++++ b/drivers/net/wireguard/send.c
+@@ -20,7 +20,7 @@
+ 
+ static void wg_packet_send_handshake_initiation(struct wg_peer *peer)
+ {
+-	struct message_handshake_initiation packet;
++	struct message_handshake_initiation packet = { 0 };
+ 
+ 	if (!wg_birthdate_has_expired(atomic64_read(&peer->last_sent_handshake),
+ 				      REKEY_TIMEOUT))
+@@ -84,7 +84,7 @@ void wg_packet_send_queued_handshake_initiation(struct wg_peer *peer,
+ 
+ void wg_packet_send_handshake_response(struct wg_peer *peer)
+ {
+-	struct message_handshake_response packet;
++	struct message_handshake_response packet = { 0 };
+ 
+ 	atomic64_set(&peer->last_sent_handshake, ktime_get_coarse_boottime_ns());
+ 	net_dbg_ratelimited("%s: Sending handshake response to peer %llu (%pISpfsc)\n",
+@@ -203,7 +203,7 @@ static bool encrypt_packet(struct sk_buff *skb, struct noise_keypair *keypair)
+ 	 */
+ 	skb_set_inner_network_header(skb, 0);
+ 	header = (struct message_data *)skb_push(skb, sizeof(*header));
+-	header->header.type = cpu_to_le32(MESSAGE_DATA);
++	header->header.type = cpu_to_le32(obfuscate_type(MESSAGE_DATA));
+ 	header->key_idx = keypair->remote_index;
+ 	header->counter = cpu_to_le64(PACKET_CB(skb)->nonce);
+ 	pskb_put(skb, trailer, trailer_len);

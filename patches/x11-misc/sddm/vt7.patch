@@ -1,0 +1,12 @@
+diff --git a/src/daemon/Display.cpp b/src/daemon/Display.cpp
+index 6945093..5756c08 100644
+--- a/src/daemon/Display.cpp
++++ b/src/daemon/Display.cpp
+@@ -131,6 +131,7 @@ namespace SDDM {
+             break;
+         }
+ 
++	if (m_terminalId < 7) m_terminalId = 7;
+         qDebug("Using VT %d", m_terminalId);
+ 
+         // respond to authentication requests

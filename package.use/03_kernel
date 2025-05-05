@@ -1,0 +1,4 @@
+*/* -initramfs
+virtual/linux-sources firmware
+sys-kernel/gentoo-sources experimental symlink
+sys-kernel/linux-firmware deduplicate unknown-license redistributable
