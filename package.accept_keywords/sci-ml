@@ -40,3 +40,4 @@ dev-libs/dynolog ~amd64
 dev-libs/pfs ~amd64
 
 sci-ml/accelerate ~amd64
+sci-ml/cudnn-frontend ~amd64

@@ -28,6 +28,9 @@ x11-libs/libvdpau dri
 media-libs/mesa osmesa
 
 
+media-libs/opencv -video_cards_*
+
+
 # Nvidia specific options (don't enable cuda globally, use only where needed!)
 
 */* -cuda nvenc

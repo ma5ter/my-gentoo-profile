@@ -8,7 +8,7 @@ dev-qt/qttools designer
 sci-libs/hdf5 -threads
 sci-libs/opencascade vtk json
 
-sci-libs/vtk -ffmpeg -logging -openmp -sdl -python_single_target_*
+sci-libs/vtk -ffmpeg -logging -openmp -sdl -python_single_target_* -video_cards_*
 
 #compilatiom failed with missing -lMaterial
 <media-gfx/freecad-1.0.0-r3 material
