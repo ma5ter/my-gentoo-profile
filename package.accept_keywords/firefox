@@ -1,2 +1,2 @@
-=www-client/firefox:rapid ~amd64
+www-client/firefox:rapid ~amd64
 =dev-libs/nss-3.111 ~amd64
