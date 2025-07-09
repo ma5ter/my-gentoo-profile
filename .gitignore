@@ -1,4 +1,5 @@
 /package.use/00_cpu-flags
+/package.use/unison
 /make.conf
 /make.profile
 /savedconfig/
