@@ -20,7 +20,8 @@ sci-ml/kineto ~amd64
 dev-python/PeachPy ~amd64
 dev-python/Opcodes ~amd64
 dev-libs/cudnn ~amd64
-dev-libs/cudnn-frontend ~amd64
+# move dev-libs/cudnn-frontend sci-ml/cudnn-frontend
+sci-ml/cudnn-frontend ~amd64
 dev-util/nvidia-cuda-toolkit ~amd64
 dev-libs/cutlass ~amd64
 sci-libs/tensorpipe ~amd64

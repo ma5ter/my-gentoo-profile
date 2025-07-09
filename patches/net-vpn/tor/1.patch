@@ -1,0 +1,97 @@
+Subject: [PATCH] initial
+---
+Index: src/core/mainloop/connection.c
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/core/mainloop/connection.c b/src/core/mainloop/connection.c
+--- a/src/core/mainloop/connection.c	(revision c2bbaa2fb0a7d6dde36237f4f08dc50ec9af571f)
++++ b/src/core/mainloop/connection.c	(date 1750767537997)
+@@ -140,6 +140,8 @@
+ 
+ #include "feature/dircommon/dir_connection_st.h"
+ #include "feature/control/control_connection_st.h"
++#include "feature/dirclient/dir_server_st.h"
++#include "feature/nodelist/dirlist.h"
+ #include "core/or/entry_connection_st.h"
+ #include "core/or/listener_connection_st.h"
+ #include "core/or/or_connection_st.h"
+@@ -5821,6 +5823,35 @@
+   const or_options_t *options = get_options();
+ 
+   *is_pt_out = 0;
++
++  if (options->ProxyOnlyDirServers) {
++    /* check if the address is in the list */
++    int is_dir_server = 0;
++    SMARTLIST_FOREACH_BEGIN(router_get_trusted_dir_servers(), dir_server_t *, ds) {
++      if (tor_addr_eq(&conn->addr, &ds->ipv4_addr) || tor_addr_eq(&conn->addr, &ds->ipv6_addr)) {
++        is_dir_server = 1;
++        break;
++      }
++    } SMARTLIST_FOREACH_END(ds);
++    if (!is_dir_server) {
++      SMARTLIST_FOREACH_BEGIN(router_get_fallback_dir_servers(), dir_server_t *, ds) {
++        if (tor_addr_eq(&conn->addr, &ds->ipv4_addr) || tor_addr_eq(&conn->addr, &ds->ipv6_addr)) {
++          is_dir_server = 1;
++          break;
++        }
++      } SMARTLIST_FOREACH_END(ds);
++    }
++
++    char address[TOR_ADDR_BUF_LEN];
++    tor_addr_to_str(address, &conn->addr, sizeof(address), 1);
++
++    if (!is_dir_server) {
++      tor_log(LOG_NOTICE, LD_CONTROL, "Using direct connection to %s:%d", address, (int)conn->port);
++      goto skip_proxy;
++    }
++    tor_log(LOG_NOTICE, LD_CONTROL, "Using proxy for dir server only at %s:%d", address, (int)conn->port);
++  }
++
+   /* Client Transport Plugins can use another proxy, but that should be hidden
+    * from the rest of tor (as the plugin is responsible for dealing with the
+    * proxy), check it first, then check the rest of the proxy types to allow
+@@ -5867,6 +5898,7 @@
+     return 0;
+   }
+ 
++  skip_proxy:
+   tor_addr_make_unspec(addr);
+   *port = 0;
+   *proxy_type = PROXY_NONE;
+Index: src/app/config/or_options_st.h
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/app/config/or_options_st.h b/src/app/config/or_options_st.h
+--- a/src/app/config/or_options_st.h	(revision c2bbaa2fb0a7d6dde36237f4f08dc50ec9af571f)
++++ b/src/app/config/or_options_st.h	(date 1749325150000)
+@@ -467,6 +467,9 @@
+   tor_addr_t TCPProxyAddr; /**< Derived from TCPProxy. */
+   uint16_t TCPProxyPort; /**< Derived from TCPProxy. */
+ 
++  /** If set then proxy only dir servers */
++  int ProxyOnlyDirServers;
++
+   /** List of configuration lines for replacement directory authorities.
+    * If you just want to replace one class of authority at a time,
+    * use the "Alternate*Authority" options below instead. */
+Index: src/app/config/config.c
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/app/config/config.c b/src/app/config/config.c
+--- a/src/app/config/config.c	(revision c2bbaa2fb0a7d6dde36237f4f08dc50ec9af571f)
++++ b/src/app/config/config.c	(date 1749328309000)
+@@ -538,6 +538,7 @@
+   V(Socks5ProxyUsername,         STRING,   NULL),
+   V(Socks5ProxyPassword,         STRING,   NULL),
+   V(TCPProxy,                    STRING,   NULL),
++  V(ProxyOnlyDirServers,         BOOL,     "0"),
+   VAR_IMMUTABLE("KeyDirectory",  FILENAME, KeyDirectory_option, NULL),
+   V(KeyDirectoryGroupReadable,   AUTOBOOL, "auto"),
+   VAR_D("HSLayer2Nodes",         ROUTERSET,  HSLayer2Nodes,  NULL),

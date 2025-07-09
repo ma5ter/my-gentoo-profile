@@ -1,4 +1,5 @@
 net-im/telegram-desktop ~amd64
+net-libs/tdlib ~amd64
 media-libs/tg_owt ~amd64
 media-libs/libtgvoip ~amd64
 dev-cpp/cppgir ~amd64

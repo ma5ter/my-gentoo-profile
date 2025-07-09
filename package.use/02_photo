@@ -3,5 +3,5 @@
 dev-python/pillow webp
 kde-frameworks/kimageformats raw avif eps heif jpegxl
 media-gfx/imagemagick jpeg2k raw hdri
-media-libs/opencv ffmpeg lapack
+media-libs/opencv ffmpeg lapack features2d
 media-libs/tiff lzma zstd

@@ -1,0 +1,2 @@
+=dev-util/nvidia-cuda-toolkit-12.9.0 # missing libnvToolsExt.so
+=sci-ml/caffe2-2.7.0-r2
