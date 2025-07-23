@@ -1,0 +1,58 @@
+diff --git a/lib/portage/dbapi/bintree.py b/lib/portage/dbapi/bintree.py
+index 9da7898..dfc22d7 100644
+--- a/lib/portage/dbapi/bintree.py
++++ b/lib/portage/dbapi/bintree.py
+@@ -171,12 +171,20 @@ class bindbapi(fakedbapi):
+     def writable(self):
+         """
+         Check if PKGDIR is writable, or permissions are sufficient
+-        to create it if it does not exist yet.
++        by attempting to create a temporary file.
++        Handles autofs cases where the initial check might fail but subsequent writes succeed.
+         @rtype: bool
+-        @return: True if PKGDIR is writable or can be created,
+-                False otherwise
++        @return: True if PKGDIR is writable,
++                 False otherwise
+         """
+-        return os.access(first_existing(self.bintree.pkgdir), os.W_OK)
++        try:
++            temp_file = os.path.join(self.bintree.pkgdir, ".tmp_write_test")
++            with open(temp_file, 'w') as f:
++                f.write("test")
++            os.unlink(temp_file)
++            return True
++        except OSError:
++            return False
+ 
+     def match(self, *pargs, **kwargs):
+         if self.bintree and not self.bintree.populated:
+diff --git a/lib/portage/dbapi/vartree.py b/lib/portage/dbapi/vartree.py
+index 0c41d40..79634de 100644
+--- a/lib/portage/dbapi/vartree.py
++++ b/lib/portage/dbapi/vartree.py
+@@ -241,13 +241,20 @@ class vardbapi(dbapi):
+     @property
+     def writable(self):
+         """
+-        Check if var/db/pkg is writable, or permissions are sufficient
+-        to create it if it does not exist yet.
++        Check if var/db/pkg is writable by attempting to create a temporary file.
++        Handles autofs cases where the initial check might fail but subsequent writes succeed.
+         @rtype: bool
+         @return: True if var/db/pkg is writable or can be created,
+-                False otherwise
++                 False otherwise
+         """
+-        return os.access(first_existing(self._dbroot), os.W_OK)
++        try:
++            temp_file = os.path.join(self._dbroot, ".tmp_write_test")
++            with open(temp_file, 'w') as f:
++                f.write("test")
++            os.unlink(temp_file)
++            return True
++        except OSError:
++            return False
+ 
+     @property
+     def root(self):
