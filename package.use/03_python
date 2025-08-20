@@ -2,23 +2,30 @@ dev-lang/python tk -bluetooth
 
 # Python 12 is the main version despite profile settings
 
-*/* python_single_target_python3_12
-*/* python_targets_python3_12
+*/* PYTHON_TARGETS: -* python3_12
+*/* PYTHON_SINGLE_TARGET: -* python3_12
 
 
-# Python 13 support not yet implemented
 
-*/* -python_single_target_python3_13
-*/* -python_targets_python3_13
-
-
-# Python 11 deprecated
-
-*/* -python_single_target_python3_11
-*/* -python_targets_python3_11
-
-
-# Python 10 deprecated
-
-*/* -python_single_target_python3_10
-*/* -python_targets_python3_10
+# Safer upgrade procedure
+# =======================
+# A safer approach is to add Python 3.13 support to your system first,
+# and only then remove Python 3.12.  However, note that this involves two
+# rebuilds of all the affected packages, so it will take noticeably
+# longer.
+# 
+# First, enable both Python 3.12 and Python 3.13, and then run the upgrade
+# commands:
+#
+#     */* PYTHON_TARGETS: -* python3_12 python3_13
+#     */* PYTHON_SINGLE_TARGET: -* python3_12
+#
+# Then switch PYTHON_SINGLE_TARGET and run the second batch of upgrades:
+#
+#     */* PYTHON_TARGETS: -* python3_12 python3_13
+#     */* PYTHON_SINGLE_TARGET: -* python3_13
+#
+# Finally, switch to the final version and upgrade:
+# 
+#     */* PYTHON_TARGETS: -* python3_13
+#     */* PYTHON_SINGLE_TARGET: -* python3_13
