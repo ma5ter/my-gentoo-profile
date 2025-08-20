@@ -1,4 +1,4 @@
-#media-gfx/freecad ~amd64
+media-gfx/freecad ~amd64
 media-gfx/libredwg ~amd64
 #sci-libs/vtk ~amd64
 #sci-libs/hdf5 ~amd64

@@ -1,0 +1,15 @@
+diff --git a/src/main.cpp b/src/main.cpp
+index d716fcd..be9c037 100644
+--- a/src/main.cpp
++++ b/src/main.cpp
+@@ -2965,8 +2965,8 @@ int main(int argc, char **argv) {
+     unsetenv("vblank_mode");
+ 
+     if(geteuid() == 0) {
+-        fprintf(stderr, "Error: don't run gpu-screen-recorder as the root user\n");
+-        _exit(1);
++        fprintf(stderr, "Warning: don't run gpu-screen-recorder as the root user, instead set admin caps for /usr/bin/gsr-kms-server\n");
++        // _exit(1);
+     }
+ 
+     args_handlers arg_handlers;

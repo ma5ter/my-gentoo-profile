@@ -2,3 +2,4 @@
 gui-libs/egl-x11 ~amd64
 gui-libs/eglexternalplatform ~amd64
 media-libs/nvidia-vaapi-driver ~amd64
+media-video/gpu-screen-recorder ~amd64
