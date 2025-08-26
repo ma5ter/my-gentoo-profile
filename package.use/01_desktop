@@ -1,4 +1,4 @@
-*/* -gnome -kaccounts
+*/* -gnome -kaccounts -kwallet
 
 */* X kde qt6 wayland qml
 
