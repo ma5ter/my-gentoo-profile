@@ -1,0 +1,2 @@
+net-libs/nodejs inspector
+www-client/chromium bindist -bundled-toolchain -cups -hangouts -official proprietary-codecs -pulseaudio -rar -screencast -system-png -vaapi -widevine ffmpeg-chromium
