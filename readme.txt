@@ -179,3 +179,41 @@ use profile/package.provided to allow upgraded version replace strictly required
  *   sci-electronics/kicad-templates for Project templates
  *   app-doc/kicad-doc for Extended documentation
  *   media-gfx/wings for Creating 3D models of components
+
+
+
+
+
+* Some web pages may require additional fonts to display properly.
+* Try installing some of the following packages if some characters
+* are not displayed properly:
+* - media-fonts/arphicfonts
+* - media-fonts/droid
+* - media-fonts/ipamonafont
+* - media-fonts/noto
+* - media-fonts/ja-ipafonts
+* - media-fonts/takao-fonts
+* - media-fonts/wqy-microhei
+* - media-fonts/wqy-zenhei
+*
+* To fix broken icons on the Downloads page, you should install an icon
+* theme that covers the appropriate MIME types, and configure this as your
+* GTK+ icon theme.
+*
+* For native file dialogs in KDE, install kde-apps/kdialog.
+*
+* To make password storage work with your desktop environment you may
+* have install one of the supported credentials management applications:
+* - app-crypt/libsecret (GNOME)
+* - kde-frameworks/kwallet (KDE)
+* If you have one of above packages installed, but don't want to use
+* them in Chromium, then add --password-store=basic to CHROMIUM_FLAGS
+* in /etc/chromium/default.
+*
+* (Note: Above message is only printed the first time package is
+* installed. Please look at /usr/share/doc/chromium-139.0.7258.154/README.gentoo*
+* for future reference)
+* This Chromium build was compiled without VA-API support, which provides
+* hardware-accelerated video decoding.
+
+
