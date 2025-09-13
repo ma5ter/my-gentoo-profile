@@ -1,4 +1,5 @@
-media-gfx/freecad -addonmgr -fem gui -idf -image -inspection -material -openscad part-design -path -points -raytracing -robot show -surface -techdraw -tux
+#media-gfx/freecad -addonmgr -fem gui -idf -image -inspection -material -openscad part-design -path -points -raytracing -robot show -surface -techdraw -tux
+media-gfx/freecad -addonmgr -fem gui -idf -image -inspection -openscad part-design -path -points -raytracing -robot show -surface techdraw -tux
 sci-libs/hdf5 fortran cxx
 sci-libs/opencascade vtk json
 dev-python/pyside quick webchannel webengine designer uitools
