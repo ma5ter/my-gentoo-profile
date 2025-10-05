@@ -1,0 +1,21 @@
+diff --git a/eeschema/lib_symbol.cpp b/eeschema/lib_symbol.cpp
+index 40c7797..9165911 100644
+--- a/eeschema/lib_symbol.cpp
++++ b/eeschema/lib_symbol.cpp
+@@ -487,6 +487,7 @@ wxString LIB_SYMBOL::LetterSubReference( int aUnit, int aFirstId )
+     // first letter is expected to be 'A' or 'a' (i.e. 26 letters are available)
+     int      u;
+     wxString suffix;
++    int      n = aUnit;
+ 
+     do
+     {
+@@ -495,7 +496,7 @@ wxString LIB_SYMBOL::LetterSubReference( int aUnit, int aFirstId )
+         aUnit = ( aUnit - u ) / 26;
+     } while( aUnit > 0 );
+ 
+-    return suffix;
++    return suffix << "(" << n << ")";
+ }
+ 
+ 
