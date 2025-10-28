@@ -1,0 +1,46 @@
+diff --git a/avidemux_plugins/ADM_scriptEngines/tinyPy/include/PythonEngine.h b/avidemux_plugins/ADM_scriptEngines/tinyPy/include/PythonEngine.h
+index 7b5d4df..4e44fed 100644
+--- a/avidemux_plugins/ADM_scriptEngines/tinyPy/include/PythonEngine.h
++++ b/avidemux_plugins/ADM_scriptEngines/tinyPy/include/PythonEngine.h
+@@ -36,6 +36,7 @@ private:
+         static tp_obj dirname(tp_vm *tp);
+         static tp_obj splitext(tp_vm *tp);
+         static tp_obj pyenviron(tp_vm *tp);
++        static tp_obj pysystem(tp_vm *tp);
+ 
+ public:
+ 	~PythonEngine();
+diff --git a/avidemux_plugins/ADM_scriptEngines/tinyPy/src/PythonEngine.cpp b/avidemux_plugins/ADM_scriptEngines/tinyPy/src/PythonEngine.cpp
+index 6594b8d..e307c2e 100644
+--- a/avidemux_plugins/ADM_scriptEngines/tinyPy/src/PythonEngine.cpp
++++ b/avidemux_plugins/ADM_scriptEngines/tinyPy/src/PythonEngine.cpp
+@@ -141,6 +141,7 @@ void PythonEngine::registerFunctions()
+ 
+     pyFunc osStaticClassFunctions[] = {
+         {"environ", PythonEngine::pyenviron},
++        {"system", PythonEngine::pysystem},
+         {NULL, NULL}
+     };
+ 
+@@ -475,3 +476,21 @@ tp_obj PythonEngine::pyenviron(tp_vm *tp)
+ 	tp_obj v =  tp_string_copy(tp,defaultRet,strlen(defaultRet));
+ 	return v;
+ }
++
++/**
++ * \fn pysystem
++ * \brief os.system(command) - Execute the command in a subshell.
++ * @param tp
++ * @return Exit status of the executed command (as integer).
++ */
++tp_obj PythonEngine::pysystem(tp_vm *tp)
++{
++    TinyParams pm(tp);
++    const char *cmd = pm.asString();
++    
++    int ret = std::system(cmd);
++    tp_obj v = tp_number(ret);
++    
++    return v;
++}
++
