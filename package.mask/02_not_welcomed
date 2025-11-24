@@ -2,3 +2,4 @@
 >=virtual/jre-22
 dev-vcs/subversion
 www-client/firefox:esr
+=sci-electronics/kicad-9.0.5

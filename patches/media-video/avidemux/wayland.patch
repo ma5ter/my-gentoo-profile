@@ -1,13 +1,13 @@
-diff --git a/avidemux/qt4/xdg_data/org.avidemux.Avidemux.desktop b/avidemux/qt4/xdg_data/org.avidemux.Avidemux.desktop
-index 66771fa..32fd1ff 100644
---- a/avidemux/qt4/xdg_data/org.avidemux.Avidemux.desktop
-+++ b/avidemux/qt4/xdg_data/org.avidemux.Avidemux.desktop
+diff --git a/avidemux/qt4/xdg_data/org.avidemux.Avidemux.desktop.in b/avidemux/qt4/xdg_data/org.avidemux.Avidemux.desktop.in
+index cb6a627..5064071 100644
+--- a/avidemux/qt4/xdg_data/org.avidemux.Avidemux.desktop.in
++++ b/avidemux/qt4/xdg_data/org.avidemux.Avidemux.desktop.in
 @@ -2,7 +2,7 @@
  Name=Avidemux
  GenericName=Video Editor
  Comment=Multiplatform video editor
--Exec=avidemux3_qt5 %f
-+Exec=avidemux3_qt5 --platform xcb %f
+-Exec=avidemux3_${QT_EXTENSION} %f
++Exec=avidemux3_${QT_EXTENSION} --platform xcb %f
  Icon=org.avidemux.Avidemux
  Terminal=false
  Type=Application

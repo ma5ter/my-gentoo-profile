@@ -1,13 +1,13 @@
-diff --git a/cmake/admCheckNvEnc.cmake b/cmake/admCheckNvEnc.cmake
-index 94f9adb..e0b589d 100644
---- a/cmake/admCheckNvEnc.cmake
-+++ b/cmake/admCheckNvEnc.cmake
+diff --git a/avidemux_core/cmake/admCheckNvEnc.cmake b/avidemux_core/cmake/admCheckNvEnc.cmake
+index 3684722..0405341 100644
+--- a/avidemux_core/cmake/admCheckNvEnc.cmake
++++ b/avidemux_core/cmake/admCheckNvEnc.cmake
 @@ -9,7 +9,7 @@ MACRO(checkNvEnc)
              PKG_CHECK_MODULES(FFNVENC ffnvcodec)
-             IF (FFNVENC_FOUND)
-                 FIND_PATH(NVENC_INCLUDE_DIR nvEncodeAPI.h
+             IF(FFNVENC_FOUND)
+                 FIND_PATH(NVENC_INCLUDE_DIR dynlink_loader.h
 -                        PATHS /usr/local/include/ffnvcodec /usr/include/ffnvcodec /include/ffnvcodec ${FFNVENC_CFLAGS} ${CROSS}/include)
-+                        PATHS ${CMAKE_CURRENT_LIST_DIR}/../ffnvcodec)
-                 IF (NVENC_INCLUDE_DIR)
++                        PATHS /usr/local/include/ffnvcodec /usr/include/ffnvcodec /include/ffnvcodec ${FFNVENC_CFLAGS} ${CROSS}/include ${CMAKE_CURRENT_LIST_DIR}/../../ffnvcodec)
+                 IF(NVENC_INCLUDE_DIR)
                      MESSAGE(STATUS "NVENC header found in ${NVENC_INCLUDE_DIR}")
-                     SET(USE_NVENC True)
+                     SET(USE_NVENC True CACHE BOOL "")
