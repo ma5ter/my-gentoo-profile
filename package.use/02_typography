@@ -2,3 +2,4 @@
 
 media-fonts/* cjk
 media-libs/freetype harfbuzz
+app-text/poppler qt5

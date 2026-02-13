@@ -1,0 +1,5 @@
+cross-aarch64-gentoo-linux-gnu/binutils -multilib
+cross-aarch64-gentoo-linux-gnu/linux-headers -selinux -multilib
+cross-aarch64-gentoo-linux-gnu/glibc static-libs -selinux -libraries -multilib
+cross-aarch64-gentoo-linux-gnu/gcc -vtv -selinux -objc -objc++ -objc-gc -vtv -sanitize -multilib
+cross-aarch64-gentoo-linux-gnu/gdb -selinux -multilib

@@ -1,4 +1,7 @@
+net-dns/avahi
+sys-auth/nss-mdns
 >=dev-lang/python-3.13
 >=virtual/jre-22
 dev-vcs/subversion
 www-client/firefox:esr
+=sci-electronics/kicad-9.0.5
