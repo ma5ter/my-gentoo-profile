@@ -1,0 +1,3 @@
+# Gentoo is officially migrating to FlexiBLAS as the primary method for managing BLAS/LAPACK
+*/* -eselect-ldso flexiblas
+

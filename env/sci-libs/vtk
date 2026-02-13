@@ -1,2 +1,2 @@
-# MAKEOPTS="-j4"
+#MAKEOPTS="-j8"
 # VTK_CUDA_ARCH=ampere
