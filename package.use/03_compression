@@ -1,4 +1,4 @@
 sys-fs/squashfs-tools zstd
 sys-fs/f2fs-tools lz4 lzo
 sys-fs/btrfs-progs -convert
-
+sys-fs/squashfs-tools lz4 lzma lzo
