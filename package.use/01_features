@@ -6,3 +6,4 @@
 media-libs/libsdl2 haptic
 
 net-wireless/wpa_supplicant tkip
+kde-apps/kio-extras mtp
