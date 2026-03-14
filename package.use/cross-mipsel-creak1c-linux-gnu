@@ -1,0 +1,5 @@
+cross-mipsel-creak1c-linux-gnu/binutils -multilib
+cross-mipsel-creak1c-linux-gnu/linux-headers -selinux -multilib
+cross-mipsel-creak1c-linux-gnu/glibc static-libs -selinux -libraries -multilib
+cross-mipsel-creak1c-linux-gnu/gcc -sanitize -vtv -selinux -objc -objc++ -objc-gc -vtv -sanitize -multilib
+cross-mipsel-creak1c-linux-gnu/gdb -selinux -multilib

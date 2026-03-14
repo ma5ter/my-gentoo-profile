@@ -1,0 +1,5 @@
+cross-armv7a-ma35h0-linux-musleabihf/binutils -multilib
+cross-armv7a-ma35h0-linux-musleabihf/linux-headers -selinux -multilib
+cross-armv7a-ma35h0-linux-musleabihf/musl -selinux -libraries -multilib
+cross-armv7a-ma35h0-linux-musleabihf/gcc -sanitize -vtv -selinux -objc -objc++ -objc-gc -vtv -sanitize -multilib
+cross-armv7a-ma35h0-linux-musleabihf/gdb -selinux -multilib

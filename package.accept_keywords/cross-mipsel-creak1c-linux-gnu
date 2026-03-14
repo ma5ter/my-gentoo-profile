@@ -1,0 +1,5 @@
+cross-mipsel-creak1c-linux-gnu/linux-headers mips ~mips -amd64 -~amd64
+cross-mipsel-creak1c-linux-gnu/glibc mips ~mips -amd64 -~amd64
+cross-mipsel-creak1c-linux-gnu/binutils mips ~mips -amd64 -~amd64
+cross-mipsel-creak1c-linux-gnu/gcc mips ~mips -amd64 -~amd64
+cross-mipsel-creak1c-linux-gnu/gdb mips ~mips -amd64 -~amd64

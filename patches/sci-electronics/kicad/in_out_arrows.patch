@@ -1,0 +1,59 @@
+diff --git a/eeschema/sch_painter.cpp b/eeschema/sch_painter.cpp
+index 5ada6fd..3804d91 100644
+--- a/eeschema/sch_painter.cpp
++++ b/eeschema/sch_painter.cpp
+@@ -839,6 +839,16 @@ static void drawAltPinModesIcon( GAL& aGal, const VECTOR2D& aPos, double aSize,
+ };
+ 
+ 
++void SCH_PAINTER::drawArrowHeadV( const VECTOR2D& tip, const VECTOR2D& dir, double headLen, double halfWidth )
++{
++    double len = dir.EuclideanNorm();   // length
++    VECTOR2D u = dir / len;
++    VECTOR2D n( -u.y, u.x );
++    VECTOR2D base = tip - u * headLen;
++    m_gal->DrawLine( tip, base + n * halfWidth );
++    m_gal->DrawLine( tip, base - n * halfWidth );
++}
++
+ void SCH_PAINTER::draw( const SCH_PIN* aPin, int aLayer, bool aDimmed )
+ {
+     // Don't draw pins from a selection view-group.  Pins in a schematic must always be drawn
+@@ -960,11 +970,24 @@ void SCH_PAINTER::draw( const SCH_PIN* aPin, int aLayer, bool aDimmed )
+     }
+     else
+     {
++        auto type = aPin->GetType();
+         switch( aPin->GetShape() )
+         {
+         default:
+         case GRAPHIC_PINSHAPE::LINE:
+             m_gal->DrawLine( p0, pos );
++
++
++            if ( type == ELECTRICAL_PINTYPE::PT_INPUT || type == ELECTRICAL_PINTYPE::PT_BIDI || type == ELECTRICAL_PINTYPE::PT_POWER_IN)
++            {
++                drawArrowHeadV( p0, p0 - pos, diam, radius );
++            }
++
++            if ( type == ELECTRICAL_PINTYPE::PT_OUTPUT || type == ELECTRICAL_PINTYPE::PT_BIDI || type == ELECTRICAL_PINTYPE::PT_POWER_OUT
++                || type == ELECTRICAL_PINTYPE::PT_OPENCOLLECTOR || type == ELECTRICAL_PINTYPE::PT_OPENEMITTER )
++            {
++                drawArrowHeadV( pos, pos - p0, diam, radius );
++            }
+             break;
+ 
+         case GRAPHIC_PINSHAPE::INVERTED:
+diff --git a/eeschema/sch_painter.h b/eeschema/sch_painter.h
+index cf01c26..6f73413 100644
+--- a/eeschema/sch_painter.h
++++ b/eeschema/sch_painter.h
+@@ -134,6 +134,8 @@ private:
+ 
+     void triLine( const VECTOR2D& a, const VECTOR2D& b, const VECTOR2D& c );
+ 
++    void drawArrowHeadV( const VECTOR2D& tip, const VECTOR2D& dir, double headLen, double halfWidth );
++
+     wxString expandLibItemTextVars( const wxString& aSourceText, const SCH_SYMBOL* aSymbolContext );
+ 
+ public:

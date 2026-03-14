@@ -1,0 +1,5 @@
+cross-armv7a-ma35h0-linux-musleabihf/linux-headers arm -amd64 -~amd64
+cross-armv7a-ma35h0-linux-musleabihf/musl arm -amd64 -~amd64
+cross-armv7a-ma35h0-linux-musleabihf/binutils arm -amd64 -~amd64
+cross-armv7a-ma35h0-linux-musleabihf/gcc arm -amd64 -~amd64
+cross-armv7a-ma35h0-linux-musleabihf/gdb arm -amd64 -~amd64

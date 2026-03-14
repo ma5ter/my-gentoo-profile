@@ -1,0 +1,5 @@
+cross-armv7a-ma35h0-linux-musleabihf/linux-headers cross-armv7a-ma35h0-linux-musleabihf/linux-headers.conf
+cross-armv7a-ma35h0-linux-musleabihf/musl cross-armv7a-ma35h0-linux-musleabihf/musl.conf
+cross-armv7a-ma35h0-linux-musleabihf/binutils cross-armv7a-ma35h0-linux-musleabihf/binutils.conf
+cross-armv7a-ma35h0-linux-musleabihf/gcc cross-armv7a-ma35h0-linux-musleabihf/gcc.conf
+cross-armv7a-ma35h0-linux-musleabihf/gdb cross-armv7a-ma35h0-linux-musleabihf/gdb.conf

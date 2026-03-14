@@ -1,0 +1,5 @@
+cross-armv7a-ma35h0-linux-musleabihf/linux-headers  multilib
+cross-armv7a-ma35h0-linux-musleabihf/musl  cet multilib
+cross-armv7a-ma35h0-linux-musleabihf/binutils  cet multilib
+cross-armv7a-ma35h0-linux-musleabihf/gcc  cet multilib
+cross-armv7a-ma35h0-linux-musleabihf/gdb  multilib

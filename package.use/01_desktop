@@ -7,3 +7,5 @@ kde-apps/kde-apps-meta pim -education -games
 x11-libs/wxGTK gstreamer
 dev-libs/libdbusmenu gtk3
 net-misc/freerdp server
+
+kde-frameworks/kdnssd minimal

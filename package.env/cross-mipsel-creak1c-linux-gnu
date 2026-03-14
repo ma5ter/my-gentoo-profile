@@ -1,0 +1,5 @@
+cross-mipsel-creak1c-linux-gnu/linux-headers cross-mipsel-creak1c-linux-gnu/linux-headers.conf
+cross-mipsel-creak1c-linux-gnu/glibc cross-mipsel-creak1c-linux-gnu/glibc.conf
+cross-mipsel-creak1c-linux-gnu/binutils cross-mipsel-creak1c-linux-gnu/binutils.conf
+cross-mipsel-creak1c-linux-gnu/gcc cross-mipsel-creak1c-linux-gnu/gcc.conf
+cross-mipsel-creak1c-linux-gnu/gdb cross-mipsel-creak1c-linux-gnu/gdb.conf
