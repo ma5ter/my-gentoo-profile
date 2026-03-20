@@ -1,0 +1,87 @@
+Index: common/advanced_config.cpp
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/common/advanced_config.cpp b/common/advanced_config.cpp
+--- a/common/advanced_config.cpp
++++ b/common/advanced_config.cpp	(date 1773661661990)
+@@ -133,6 +133,7 @@
+ static const wxChar GitIconRefreshInterval[] = wxT( "GitIconRefreshInterval" );
+ static const wxChar MaxPastedTextLength[] = wxT( "MaxPastedTextLength" );
+ static const wxChar PNSProcessClusterTimeout[] = wxT( "PNSProcessClusterTimeout" );
++static const wxChar PNSExtraOptimizeOnRouting[] = wxT( "ExtraOptimizeOnRouting" );
+ 
+ } // namespace KEYS
+ 
+@@ -323,6 +324,8 @@
+ 
+     m_PNSProcessClusterTimeout = 100; // Default: 100 ms
+ 
++    m_ExtraOptimizeOnRouting = 0;
++
+     loadFromConfigFile();
+ }
+ 
+@@ -631,6 +634,9 @@
+     configParams.push_back( new PARAM_CFG_INT( true, AC_KEYS::PNSProcessClusterTimeout,
+                                                &m_PNSProcessClusterTimeout, 100, 10, 10000 ) );
+ 
++    configParams.push_back( new PARAM_CFG_INT( true, AC_KEYS::PNSExtraOptimizeOnRouting,
++                                               &m_ExtraOptimizeOnRouting, 0, 0, 256 ) );
++
+     // Special case for trace mask setting...we just grab them and set them immediately
+     // Because we even use wxLogTrace inside of advanced config
+     wxString traceMasks;
+Index: pcbnew/router/pns_line_placer.cpp
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pcbnew/router/pns_line_placer.cpp b/pcbnew/router/pns_line_placer.cpp
+--- a/pcbnew/router/pns_line_placer.cpp
++++ b/pcbnew/router/pns_line_placer.cpp	(date 1773661661993)
+@@ -25,6 +25,8 @@
+ #include "pns_arc.h"
+ #include "pns_debug_decorator.h"
+ #include "pns_line_placer.h"
++
++#include "advanced_config.h"
+ #include "pns_node.h"
+ #include "pns_router.h"
+ #include "pns_shove.h"
+@@ -1699,7 +1701,7 @@
+     }
+ 
+ 
+-    if( realEnd && lastItem )
++    if( /*realEnd &&*/ lastItem )
+         simplifyNewLine( m_lastNode, lastItem );
+ 
+     if( !realEnd )
+@@ -1952,7 +1954,7 @@
+     LINE l_orig = aNode->AssembleLine( aLatest, nullptr, false, false, false );
+     LINE l( l_orig );
+ 
+-    bool optimized = OPTIMIZER::Optimize( &l, OPTIMIZER::MERGE_COLINEAR, aNode );
++    bool optimized = OPTIMIZER::Optimize( &l, OPTIMIZER::MERGE_COLINEAR | ADVANCED_CFG::GetCfg().m_ExtraOptimizeOnRouting, aNode );
+ 
+     SHAPE_LINE_CHAIN simplified( l.CLine() );
+ 
+Index: include/advanced_config.h
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/include/advanced_config.h b/include/advanced_config.h
+--- a/include/advanced_config.h
++++ b/include/advanced_config.h	(date 1773661693288)
+@@ -805,6 +805,8 @@
+      */
+     int m_PNSProcessClusterTimeout;
+ 
++    int m_ExtraOptimizeOnRouting;
++
+     ///@}
+ 
+ private:
