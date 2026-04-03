@@ -44,3 +44,5 @@ dev-libs/pfs ~amd64
 
 sci-ml/accelerate ~amd64
 sci-ml/cudnn-frontend ~amd64
+
+dev-python/annotated-doc ~amd64
