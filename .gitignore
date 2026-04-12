@@ -5,3 +5,5 @@
 /savedconfig/
 /repos.conf/
 /gnupg/
+/binrepos.conf/
+/package.use/99_video_cards_override
