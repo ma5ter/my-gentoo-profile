@@ -1,6 +1,8 @@
 # See PipeWare wiki page
 */* pulseaudio
 
+*/* opus id3tag
+
 media-video/pipewire sound-server pipewire-alsa extra
 
 

@@ -6,14 +6,14 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 diff --git a/common/advanced_config.cpp b/common/advanced_config.cpp
 --- a/common/advanced_config.cpp
 +++ b/common/advanced_config.cpp	(date 1773661661990)
-@@ -133,6 +133,7 @@
- static const wxChar GitIconRefreshInterval[] = wxT( "GitIconRefreshInterval" );
- static const wxChar MaxPastedTextLength[] = wxT( "MaxPastedTextLength" );
- static const wxChar PNSProcessClusterTimeout[] = wxT( "PNSProcessClusterTimeout" );
+@@ -72,6 +72,7 @@
+ static const wxChar HoleWallThickness[] = wxT( "HoleWallPlatingThickness" );
+ static const wxChar CoroutineStackSize[] = wxT( "CoroutineStackSize" );
+ static const wxChar ShowRouterDebugGraphics[] = wxT( "ShowRouterDebugGraphics" );
 +static const wxChar PNSExtraOptimizeOnRouting[] = wxT( "ExtraOptimizeOnRouting" );
- 
- } // namespace KEYS
- 
+ static const wxChar EnableRouterDump[] = wxT( "EnableRouterDump" );
+ static const wxChar HyperZoom[] = wxT( "HyperZoom" );
+ static const wxChar CompactFileSave[] = wxT( "CompactSave" );
 @@ -323,6 +324,8 @@
  
      m_PNSProcessClusterTimeout = 100; // Default: 100 ms
@@ -23,16 +23,16 @@ diff --git a/common/advanced_config.cpp b/common/advanced_config.cpp
      loadFromConfigFile();
  }
  
-@@ -631,6 +634,9 @@
-     configParams.push_back( new PARAM_CFG_INT( true, AC_KEYS::PNSProcessClusterTimeout,
-                                                &m_PNSProcessClusterTimeout, 100, 10, 10000 ) );
- 
-+    configParams.push_back( new PARAM_CFG_INT( true, AC_KEYS::PNSExtraOptimizeOnRouting,
-+                                               &m_ExtraOptimizeOnRouting, 0, 0, 256 ) );
+@@ -437,6 +437,9 @@
+     m_entries.push_back( std::make_unique<PARAM_CFG_BOOL>( true, AC_KEYS::ShowRouterDebugGraphics,
+                                                            &m_ShowRouterDebugGraphics, m_ShowRouterDebugGraphics ) );
+
++    m_entries.push_back( std::make_unique<PARAM_CFG_INT>( 0, AC_KEYS::PNSExtraOptimizeOnRouting,
++                                                           &m_ExtraOptimizeOnRouting, m_ExtraOptimizeOnRouting, 0, 256 ) );
 +
-     // Special case for trace mask setting...we just grab them and set them immediately
-     // Because we even use wxLogTrace inside of advanced config
-     wxString traceMasks;
+     m_entries.push_back( std::make_unique<PARAM_CFG_BOOL>( true, AC_KEYS::EnableRouterDump, &m_EnableRouterDump,
+                                                            m_EnableRouterDump ) );
+ 
 Index: pcbnew/router/pns_line_placer.cpp
 IDEA additional info:
 Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
@@ -50,15 +50,6 @@ diff --git a/pcbnew/router/pns_line_placer.cpp b/pcbnew/router/pns_line_placer.c
  #include "pns_node.h"
  #include "pns_router.h"
  #include "pns_shove.h"
-@@ -1699,7 +1701,7 @@
-     }
- 
- 
--    if( realEnd && lastItem )
-+    if( /*realEnd &&*/ lastItem )
-         simplifyNewLine( m_lastNode, lastItem );
- 
-     if( !realEnd )
 @@ -1952,7 +1954,7 @@
      LINE l_orig = aNode->AssembleLine( aLatest, nullptr, false, false, false );
      LINE l( l_orig );
@@ -76,12 +67,19 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 diff --git a/include/advanced_config.h b/include/advanced_config.h
 --- a/include/advanced_config.h
 +++ b/include/advanced_config.h	(date 1773661693288)
-@@ -805,6 +805,8 @@
+@@ -241,6 +241,15 @@
       */
-     int m_PNSProcessClusterTimeout;
+     bool m_ShowRouterDebugGraphics;
  
++    /**
++     * Extra optimizations on routing
++     *
++     * Setting name: "ExtraOptimizeOnRouting"
++     * Valid values: 0 to 256
++     * Default value: 0
++     */
 +    int m_ExtraOptimizeOnRouting;
 +
-     ///@}
- 
- private:
+     /**
+      * Enable PNS router to dump state information for debug purpose (press `0` while routing)
+      *
